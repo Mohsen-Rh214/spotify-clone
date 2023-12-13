@@ -1,5 +1,5 @@
+import jwt from 'jsonwebtoken'
 import { NextApiRequest, NextApiResponse } from 'next';
-import { jwt } from 'jsonwebtoken';
 import prisma from './prisma';
 
 export const validateRoute = (handler) => {
@@ -16,15 +16,17 @@ export const validateRoute = (handler) => {
                 })
 
                 if (!user) {
-                    throw new Error('User not there!!')
+                    throw new Error('Not real user')
                 }
             } catch (error) {
                 res.status(401)
                 res.json({ error: 'Not Authorizied' })
                 return
             }
+
             return handler(req, res, user)
         }
+
         res.status(401)
         res.json({ error: 'Not Authorizied' })
     }
